@@ -6,8 +6,8 @@
 ; General preferences
 G90                            ; send absolute coordinates...
 M83                            ; ...but relative extruder moves
-M550 P"My Printer"             ; set printer name
-M669 K1                        ; select CoreXY mode
+M550 P"avid_cnc"               ; set printer name
+M669 K0                        ; select Cartesian Mode
 
 ; Network
 M552 S1                        ; enable network
@@ -19,18 +19,21 @@ M586 P2 S0                     ; disable Telnet
 M569 P0 S1                     ; physical drive 0 goes forwards
 M569 P1 S1                     ; physical drive 1 goes forwards
 M569 P2 S1                     ; physical drive 2 goes forwards
-M584 X0 Y1 Z2                  ; set drive mapping
+M569 P3 S1                     ; physical drive 3 goes forwards
+M584 X0 Y1:2 Z3                ; set drive mapping
 M350 X16 Y16 Z16 I1            ; configure microstepping with interpolation
-M92 X80.00 Y80.00 Z400.00      ; set steps per mm
+M92 X251.9685 Y251.9685 Z251.9685      ; set steps per mm
+
+
 M566 X900.00 Y900.00 Z60.00    ; set maximum instantaneous speed changes (mm/min)
-M203 X6000.00 Y6000.00 Z180.00 ; set maximum speeds (mm/min)
-M201 X500.00 Y500.00 Z20.00    ; set accelerations (mm/s^2)
+M203 X2500.0 Y2500.00 Z1000.0   ; set maximum speeds (mm/min)
+M201 X500.00 Y500.00 Z250.00    ; set accelerations (mm/s^2)
 M906 X1200 Y1200 Z1200 I30     ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                        ; Set idle timeout
 
 ; Axis Limits
 M208 X0 Y0 Z0 S1               ; set axis minima
-M208 X600 Y900 Z175 S0         ; set axis maxima
+M208 X635 Y935 Z178 S0         ; set axis maxima
 
 ; Endstops
 M574 X1 S3                     ; configure sensorless endstop for low end on X
@@ -45,7 +48,7 @@ M557 X15:215 Y15:195 S20       ; define mesh grid
 M140 H-1                       ; disable heated bed (overrides default heater mapping)
 
 ; Fans
-M950 F0 C"fan0" Q500           ; create fan 0 on pin fan0 and set its frequency
+M950 F0 C"!out4" Q500           ; create fan 0 on pin fan0 and set its frequency
 M106 P0 S0 H-1                 ; set fan 0 value. Thermostatic control is turned off
 
 ; Tools
@@ -57,4 +60,7 @@ G10 P0 R0 S0                   ; set initial tool 0 active and standby temperatu
 
 ; Miscellaneous
 T0                             ; select first tool
+
+; Allow movement on non-homed axes -- Remove this when endstops arrive 
+M564 S0 H0
 
