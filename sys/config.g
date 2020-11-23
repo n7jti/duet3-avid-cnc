@@ -22,11 +22,11 @@ M569 P2 S1                     ; physical drive 2 goes forwards
 M569 P3 S1                     ; physical drive 3 goes forwards
 M584 X0 Y1:2 Z3                ; set drive mapping
 M350 X16 Y16 Z16 I1            ; configure microstepping with interpolation
-M92 X251.9685 Y251.9685 Z251.9685      ; set steps per mm
+M92 X251.9685 Y251.9685 Z251.9685      ; 1/2" per revolution at 200 counts and 16x micostepping converted to mm
 
 
 M566 X900.00 Y900.00 Z60.00    ; set maximum instantaneous speed changes (mm/min)
-M203 X2500.0 Y2500.00 Z1000.0   ; set maximum speeds (mm/min)
+M203 X2500.0 Y2500.00 Z1000.0   ; set maximum speeds (mm/min).  Max speed is 200ipm, but I'm capping at 100 ipm
 M201 X500.00 Y500.00 Z250.00    ; set accelerations (mm/s^2)
 M906 X1200 Y1200 Z1200 I30     ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                        ; Set idle timeout
