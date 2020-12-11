@@ -17,9 +17,9 @@ M586 P2 S0                     ; disable Telnet
 
 ; Drives
 M569 P0 S1                     ; physical drive 0 goes forwards
-M569 P1 S1                     ; physical drive 1 goes forwards
-M569 P2 S1                     ; physical drive 2 goes forwards
-M569 P3 S1                     ; physical drive 3 goes forwards
+M569 P1 S0                     ; physical drive 1 goes backwards
+M569 P2 S0                     ; physical drive 2 goes backwards
+M569 P3 S0                     ; physical drive 3 goes backwards
 M584 X0 Y1:2 Z3                ; set drive mapping
 M350 X16 Y16 Z16 I1            ; configure microstepping with interpolation
 M92 X251.9685 Y251.9685 Z251.9685      ; set steps per mm
@@ -32,13 +32,12 @@ M906 X1200 Y1200 Z1200 I30     ; set motor currents (mA) and motor idle factor i
 M84 S30                        ; Set idle timeout
 
 ; Axis Limits
-M208 X0 Y0 Z0 S1               ; set axis minima
-M208 X635 Y935 Z178 S0         ; set axis maxima
+M208 X0:789 Y0:997 Z0:243       ; set axis minima & maxima
 
 ; Endstops
-M574 X1 S3                     ; configure sensorless endstop for low end on X
-M574 Y1 S3                     ; configure sensorless endstop for low end on Y
-M574 Z1 S1 P"^!io1.in"         ; configure sensorless endstop for low end on Z
+M574 X1 S1 P"!io3.in"          ; configure low end on X
+M574 Y1 S1 P"!io5.in+!io6.in"  ; configure dual self-squaring low end on y
+M574 Z2 S1 p"!io8.in"          ; configure high end on z (z homes high)
 
 ; Z-Probe
 ; M558 K0 P5 C"^!io1.in" H100 F120 T6000     ; disable Z probe but set dive height, probe speed and travel speed
