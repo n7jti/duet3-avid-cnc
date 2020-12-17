@@ -9,12 +9,6 @@ M83                            ; ...but relative extruder moves
 M550 P"avid_cnc"               ; set printer name
 M669 K0                        ; select Cartesian Mode
 
-; Network
-M552 S1                        ; enable network
-M586 P0 S1                     ; enable HTTP
-M586 P1 S0                     ; disable FTP
-M586 P2 S0                     ; disable Telnet
-
 ; Drives
 M569 P0 S1                     ; physical drive 0 goes forwards
 M569 P1 S0                     ; physical drive 1 goes backwards
@@ -22,13 +16,13 @@ M569 P2 S0                     ; physical drive 2 goes backwards
 M569 P3 S0                     ; physical drive 3 goes backwards
 M584 X0 Y1:2 Z3                ; set drive mapping
 M350 X16 Y16 Z16 I1            ; configure microstepping with interpolation
-M92 X251.9685 Y251.9685 Z251.9685      ; set steps per mm
+M92 X251.9685 Y251.9685 Z251.9685 ; set steps per mm
 
 
 M566 X900.00 Y900.00 Z60.00    ; set maximum instantaneous speed changes (mm/min)
-M203 X2500.0 Y2500.00 Z1000.0   ; set maximum speeds (mm/min)
-M201 X500.00 Y500.00 Z250.00    ; set accelerations (mm/s^2)
-M906 X1200 Y1200 Z1200 I30     ; set motor currents (mA) and motor idle factor in per cent
+M203 X2500.0 Y2500.00 Z1000.0  ; set maximum speeds (mm/min)
+M201 X500.00 Y500.00 Z250.00   ; set accelerations (mm/s^2)
+M906 X2000 Y2000 Z2000 I30     ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                        ; Set idle timeout
 
 ; Axis Limits
@@ -39,10 +33,16 @@ M574 X1 S1 P"!io3.in"          ; configure low end on X
 M574 Y1 S1 P"!io5.in+!io6.in"  ; configure dual self-squaring low end on y
 M574 Z2 S1 p"!io8.in"          ; configure high end on z (z homes high)
 
-; Z-Probe
-; M558 K0 P5 C"^!io1.in" H100 F120 T6000     ; disable Z probe but set dive height, probe speed and travel speed
-; M557 X15:215 Y15:195 S20       ; define mesh grid
+; Stop if hit the endstops
+M950 J0 C"!io4.in"             ; X far-end
+M950 J1 C"!io7.in"             ; Y far-end
+M581 T0 P0:1 X Y Z S1          ; Stop when endstops are reached
 
+; Z-Probe
+M558 K0 P5 C"^!io1.in" H100 F120 T6000     ;Z probe set dive height, probe speed and travel speed
+
+; Pendant
+M575 P1 B57600 S1              ; enable serial comms
 
 ; Heaters
 M140 H-1                       ; disable heated bed (overrides default heater mapping)
