@@ -26,7 +26,7 @@ M906 X2000 Y2000 Z2000 I30     ; set motor currents (mA) and motor idle factor i
 M84 S30                        ; Set idle timeout
 
 ; Axis Limits
-M208 X0:789 Y0:997 Z0:243       ; set axis minima & maxima
+M208 X0:789 Y0:997 Z0:222.4       ; set axis minima & maxima
 
 ; Endstops
 M574 X1 S1 P"!io3.in"          ; configure low end on X
@@ -39,7 +39,8 @@ M950 J1 C"!io7.in"             ; Y far-end
 M581 T0 P0:1 X Y Z S1          ; Stop when endstops are reached
 
 ; Z-Probe
-M558 K0 P5 C"^!io1.in" H100 F120 T6000     ;Z probe set dive height, probe speed and travel speed
+M558 P5 H25 C"^!io1.in" F150 T3000     ; Z probe speed and travel speed
+G31 P500 X0 Y0 Z25.4                   ; set the z-probe trigger height to 1 inch
 
 ; Pendant
 M575 P1 B57600 S1              ; enable serial comms
